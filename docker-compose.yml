@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  hermes-agent:
+    image: ghcr.io/hermes-agent-team/hermes-agent:main
+    container_name: hai-hermes-agent
+    restart: always
+    environment:
+      WANTED_UID: "1000"
+      WANTED_GID: "1000"
+      HERMES_HOME: "/home/hermes/.hermes"
+      OPENAI_API_KEY: "DEIN-ECHTER-API-KEY"
+      OPENAI_BASE_URL: "https://9router.arbeitermili.eu/v1"
+      HERMES_CUSTOM_9ROUTER_ARBEITERMILI_EU_API_KEY: "DEIN-ECHTER-API-KEY"
+      API_SERVER_ENABLED: "true"
+      API_SERVER_KEY: "GLEICHER-LANGER-ZUFALLSKEY"
+      TERMINAL_ENV: "local"
+      HERMES_EXEC_ASK: "1"
+    volumes:
+      - hermes-home:/home/hermes/.hermes
+      - hermes-agent-src:/opt/hermes # Agent source code written here by the container
+      - hermes-workspace:/workspace
+    networks:
+      - highfishNetwork
+
+  hermes-webui:
+    image: ghcr.io/hermes-agent-team/hermes-webui:main
+    container_name: hai-hermes-webui
+    restart: always
+    depends_on:
+      - hermes-agent
+    ports:
+      - "8787:8787"
+    environment:
+      WANTED_UID: "1000"
+      WANTED_GID: "1000"
+      HERMES_HOME: "/home/hermes/.hermes"
+      HERMES_WEBUI_HOST: "0.0.0.0"
+      HERMES_WEBUI_PORT: "8787"
+      HERMES_WEBUI_PASSWORD: "DEIN-LANGES-WEBUI-PASSWORT"
+      HERMES_WEBUI_STATE_DIR: "/home/hermes/.hermes/webui"
+      HERMES_WEBUI_DEFAULT_WORKSPACE: "/workspace"
+      HERMES_WEBUI_AGENT_DIR: "/home/hermes/.hermes/hermes-agent"
+      HERMES_WEBUI_AUTO_INSTALL: "1"
+      HERMES_WEBUI_DEFAULT_MODEL: "all_coding"
+      OPENAI_API_KEY: "DEIN-ECHTER-API-KEY"
+      OPENAI_BASE_URL: "https://9router.arbeitermili.eu/v1"
+      HERMES_CUSTOM_9ROUTER_ARBEITERMILI_EU_API_KEY: "DEIN-ECHTER-API-KEY"
+      HERMES_WEBUI_GATEWAY_API_KEY: "GLEICHER-LANGER-ZUFALLSKEY"
+      HERMES_EXEC_ASK: "1"
+      TERMINAL_ENV: "local"
+    volumes:
+      - hermes-home:/home/hermes/.hermes
+      - hermes-agent-src:/home/hermes/.hermes/hermes-agent:ro # Agent source code mounted read-only
+      - hermes-workspace:/workspace
+    networks:
+      - highfishNetwork
+
+volumes:
+  hermes-home:
+    name: hermes-home
+  hermes-agent-src:
+    name: hermes-agent-src
+  hermes-workspace:
+    name: hermes-workspace
+
+networks:
+  highfishNetwork:
+    external: true
