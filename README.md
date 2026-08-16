@@ -1,5 +1,9 @@
 # hAI.HermesPortainer
 
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Docker Build](https://github.com/jbkunama1/hAI.HermesPortainer/actions/workflows/docker-build.yml/badge.svg)](https://github.com/jbkunama1/hAI.HermesPortainer/actions/workflows/docker-build.yml)
+[![Secret Scan](https://github.com/jbkunama1/hAI.HermesPortainer/actions/workflows/trufflehog.yml/badge.svg)](https://github.com/jbkunama1/hAI.HermesPortainer/actions/workflows/trufflehog.yml)
+
 This repository contains a Docker-optimized setup for Hermes WebUI and Hermes Agent on a DietPi/Debian server.
 
 ## Features
