@@ -24,7 +24,7 @@ services:
       - highfishNetwork
 
   hermes-webui:
-    image: ghcr.io/hermes-agent-team/hermes-webui:main
+    image: ghcr.io/nesquena/hermes-webui:latest # real image per spec line 246
     container_name: hai-hermes-webui
     restart: always
     depends_on:
