@@ -1,5 +1,9 @@
 # hAI.HermesPortainer
 
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Docker Build](https://github.com/jbkunama1/hAI.HermesPortainer/actions/workflows/docker-build.yml/badge.svg)](https://github.com/jbkunama1/hAI.HermesPortainer/actions/workflows/docker-build.yml)
+[![Secret Scan](https://github.com/jbkunama1/hAI.HermesPortainer/actions/workflows/trufflehog.yml/badge.svg)](https://github.com/jbkunama1/hAI.HermesPortainer/actions/workflows/trufflehog.yml)
+
 This repository contains a Docker-optimized setup for Hermes WebUI and Hermes Agent on a DietPi/Debian server.
 
 ## Features
@@ -34,10 +38,10 @@ hermes-webui:8787
 ## Quick Start
 
 1. Ensure the `highfishNetwork` exists: `docker network create highfishNetwork`.
-2. Replace placeholders in `docker-compose.yml`:
-   - `OPENAI_API_KEY`: Your LLM provider key.
+2. Create your `.env` from the template and fill in secrets:
+   - Both `OPENAI_API_KEY` and `HERMES_CUSTOM_9ROUTER_ARBEITERMILI_EU_API_KEY`: your LLM provider key.
+   - `API_SERVER_KEY`: a secure random hex string for the internal gateway auth (shared by agent and webui). Generate one with `openssl rand -hex 32`.
    - `HERMES_WEBUI_PASSWORD`: Your desired login password.
-   - `API_SERVER_KEY`: A secure random hex string for internal gateway auth.
 3. Deploy the stack via Portainer or `docker-compose up -d`.
 
 ## License

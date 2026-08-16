@@ -1,4 +1,4 @@
-name: TruffleHog Secret Scan
+e: TruffleHog Secret Scan
 
 on:
   push:
@@ -18,6 +18,5 @@ jobs:
         uses: trufflesecurity/trufflehog@main
         with:
           path: ./
-          base: main
-          head: HEAD
           extra_args: --results=verified,unknown
+

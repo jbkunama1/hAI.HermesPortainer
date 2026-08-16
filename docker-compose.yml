@@ -2,20 +2,21 @@ version: '3.8'
 
 services:
   hermes-agent:
-    image: ghcr.io/hermes-agent-team/hermes-agent:main
+    image: nousresearch/hermes-agent:latest
     container_name: hai-hermes-agent
     restart: always
     environment:
-      WANTED_UID: "1000"
-      WANTED_GID: "1000"
-      HERMES_HOME: "/home/hermes/.hermes"
-      OPENAI_API_KEY: "DEIN-ECHTER-API-KEY"
-      OPENAI_BASE_URL: "https://9router.arbeitermili.eu/v1"
-      HERMES_CUSTOM_9ROUTER_ARBEITERMILI_EU_API_KEY: "DEIN-ECHTER-API-KEY"
-      API_SERVER_ENABLED: "true"
-      API_SERVER_KEY: "GLEICHER-LANGER-ZUFALLSKEY"
-      TERMINAL_ENV: "local"
-      HERMES_EXEC_ASK: "1"
+      WANTED_UID: "${WANTED_UID:-1000}"
+      WANTED_GID: "${WANTED_GID:-1000}"
+      HERMES_HOME: "${HERMES_HOME:-/home/hermes/.hermes}"
+      OPENAI_API_KEY: "${OPENAI_API_KEY:?set OPENAI_API_KEY in .env or Portainer}"
+      OPENAI_BASE_URL: "${OPENAI_BASE_URL:-https://9router.arbeitermili.eu/v1}"
+      HERMES_CUSTOM_9ROUTER_ARBEITERMILI_EU_API_KEY: "${OPENAI_API_KEY:?set OPENAI_API_KEY}"
+      API_SERVER_ENABLED: "${API_SERVER_ENABLED:-true}"
+      API_SERVER_KEY: "${API_SERVER_KEY:?set API_SERVER_KEY in .env or Portainer}"
+      API_SERVER_PORT: "${API_SERVER_PORT:-8642}"
+      TERMINAL_ENV: "${TERMINAL_ENV:-local}"
+      HERMES_EXEC_ASK: "${HERMES_EXEC_ASK:-1}"
     volumes:
       - hermes-home:/home/hermes/.hermes
       - hermes-agent-src:/opt/hermes # Agent source code written here by the container
@@ -24,7 +25,7 @@ services:
       - highfishNetwork
 
   hermes-webui:
-    image: ghcr.io/hermes-agent-team/hermes-webui:main
+    image: ghcr.io/nesquena/hermes-webui:latest # real image per spec line 246
     container_name: hai-hermes-webui
     restart: always
     depends_on:
@@ -32,23 +33,23 @@ services:
     ports:
       - "8787:8787"
     environment:
-      WANTED_UID: "1000"
-      WANTED_GID: "1000"
-      HERMES_HOME: "/home/hermes/.hermes"
-      HERMES_WEBUI_HOST: "0.0.0.0"
-      HERMES_WEBUI_PORT: "8787"
-      HERMES_WEBUI_PASSWORD: "DEIN-LANGES-WEBUI-PASSWORT"
-      HERMES_WEBUI_STATE_DIR: "/home/hermes/.hermes/webui"
-      HERMES_WEBUI_DEFAULT_WORKSPACE: "/workspace"
-      HERMES_WEBUI_AGENT_DIR: "/home/hermes/.hermes/hermes-agent"
-      HERMES_WEBUI_AUTO_INSTALL: "1"
-      HERMES_WEBUI_DEFAULT_MODEL: "all_coding"
-      OPENAI_API_KEY: "DEIN-ECHTER-API-KEY"
-      OPENAI_BASE_URL: "https://9router.arbeitermili.eu/v1"
-      HERMES_CUSTOM_9ROUTER_ARBEITERMILI_EU_API_KEY: "DEIN-ECHTER-API-KEY"
-      HERMES_WEBUI_GATEWAY_API_KEY: "GLEICHER-LANGER-ZUFALLSKEY"
-      HERMES_EXEC_ASK: "1"
-      TERMINAL_ENV: "local"
+      WANTED_UID: "${WANTED_UID:-1000}"
+      WANTED_GID: "${WANTED_GID:-1000}"
+      HERMES_HOME: "${HERMES_HOME:-/home/hermes/.hermes}"
+      HERMES_WEBUI_HOST: "${HERMES_WEBUI_HOST:-0.0.0.0}"
+      HERMES_WEBUI_PORT: "${HERMES_WEBUI_PORT:-8787}"
+      HERMES_WEBUI_PASSWORD: "${HERMES_WEBUI_PASSWORD:?set HERMES_WEBUI_PASSWORD in .env or Portainer}"
+      HERMES_WEBUI_STATE_DIR: "${HERMES_WEBUI_STATE_DIR:-/home/hermes/.hermes/webui}"
+      HERMES_WEBUI_DEFAULT_WORKSPACE: "${HERMES_WEBUI_DEFAULT_WORKSPACE:-/workspace}"
+      HERMES_WEBUI_AGENT_DIR: "${HERMES_WEBUI_AGENT_DIR:-/home/hermes/.hermes/hermes-agent}"
+      HERMES_WEBUI_AUTO_INSTALL: "${HERMES_WEBUI_AUTO_INSTALL:-1}"
+      HERMES_WEBUI_DEFAULT_MODEL: "${HERMES_WEBUI_DEFAULT_MODEL:-all_coding}"
+      OPENAI_API_KEY: "${OPENAI_API_KEY:?set OPENAI_API_KEY in .env or Portainer}"
+      OPENAI_BASE_URL: "${OPENAI_BASE_URL:-https://9router.arbeitermili.eu/v1}"
+      HERMES_CUSTOM_9ROUTER_ARBEITERMILI_EU_API_KEY: "${OPENAI_API_KEY:?set OPENAI_API_KEY}"
+      HERMES_WEBUI_GATEWAY_API_KEY: "${API_SERVER_KEY:?set API_SERVER_KEY in .env}"
+      HERMES_EXEC_ASK: "${HERMES_EXEC_ASK:-1}"
+      TERMINAL_ENV: "${TERMINAL_ENV:-local}"
     volumes:
       - hermes-home:/home/hermes/.hermes
       - hermes-agent-src:/home/hermes/.hermes/hermes-agent:ro # Agent source code mounted read-only
