@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   hermes-agent:
-    image: ghcr.io/hermes-agent-team/hermes-agent:main
+    image: nousresearch/hermes-agent:latest
     container_name: hai-hermes-agent
     restart: always
     environment:
