@@ -24,5 +24,19 @@ Browser -> Cloudflare Tunnel -> hermes-webui:8787
 
     <h2>Deployment</h2>
     <p>This project uses Docker Compose for deployment. Refer to the <a href="https://github.com/jbkunama1/hAI.HermesPortainer">GitHub repository</a> for full configuration details.</p>
+
+    <h2>LLM Provider: 9router</h2>
+    <p>Both containers share the <code>hermes-home</code> volume, so provider config lives in <code>&lt;hermes-home&gt;/.hermes/&lt;profile&gt;/config.yaml</code>. <code>OPENAI_API_KEY</code> + <code>OPENAI_BASE_URL</code> register 9router automatically under the <code>openai-api</code> provider; the model dropdown shows what 9router's <code>/v1/models</code> returns for your key.</p>
+
+    <h3>Custom provider with model allowlist</h3>
+    <pre><code>custom_providers:
+  - name: 9router
+    base_url: https://9router.arbeitermili.eu/v1
+    api_key: "${OPENAI_API_KEY}"
+    models:
+      - all_coding
+      - &lt;weitere model ids von 9router&gt;</code></pre>
+
+    <p>After editing, run <code>docker exec -it hermes-agent hermes doctor --fix</code>.</p>
 </body>
 </html>
