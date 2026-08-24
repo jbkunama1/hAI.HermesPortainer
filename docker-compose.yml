@@ -5,6 +5,7 @@ services:
     image: nousresearch/hermes-agent:latest
     container_name: hai-hermes-agent
     restart: always
+    command: ["gateway", "run"]
     environment:
       WANTED_UID: "${WANTED_UID:-1000}"
       WANTED_GID: "${WANTED_GID:-1000}"
@@ -13,6 +14,7 @@ services:
       OPENAI_BASE_URL: "${OPENAI_BASE_URL:-https://9router.arbeitermili.eu/v1}"
       CUSTOM_9ROUTER_ARBEITERMILI_EU_API_KEY: "${OPENAI_API_KEY:?set OPENAI_API_KEY}"
       API_SERVER_ENABLED: "${API_SERVER_ENABLED:-true}"
+      API_SERVER_HOST: "${API_SERVER_HOST:-0.0.0.0}"
       API_SERVER_KEY: "${API_SERVER_KEY:?set API_SERVER_KEY in .env or Portainer}"
       API_SERVER_PORT: "${API_SERVER_PORT:-8642}"
       TERMINAL_ENV: "${TERMINAL_ENV:-local}"
@@ -47,6 +49,7 @@ services:
       OPENAI_API_KEY: "${OPENAI_API_KEY:?set OPENAI_API_KEY in .env or Portainer}"
       OPENAI_BASE_URL: "${OPENAI_BASE_URL:-https://9router.arbeitermili.eu/v1}"
       CUSTOM_9ROUTER_ARBEITERMILI_EU_API_KEY: "${OPENAI_API_KEY:?set OPENAI_API_KEY}"
+      HERMES_WEBUI_GATEWAY_BASE_URL: "${HERMES_WEBUI_GATEWAY_BASE_URL:-http://hermes-agent:8642}"
       HERMES_WEBUI_GATEWAY_API_KEY: "${API_SERVER_KEY:?set API_SERVER_KEY in .env}"
       HERMES_EXEC_ASK: "${HERMES_EXEC_ASK:-1}"
       TERMINAL_ENV: "${TERMINAL_ENV:-local}"
